@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Lists from '../components/Lists';
 import TodoHeader from '../components/Todo/TodoHeader';
 import TodoCreate from '../components/Todo/TodoCreate';
-import TodoLists from '../components/Todo/TodoLists';
+import TodoLists from '../components/Todo/Todolists';
 
 function App() {
 
