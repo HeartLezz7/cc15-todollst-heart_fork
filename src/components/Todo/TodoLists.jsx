@@ -3,8 +3,6 @@ import styles from './TodoLists.module.scss'
 
 function TodoLists({data ,deleteTodo, editTodo}) {
 
-  // CRUD = Create-Read-Update-Delete
-
   const dataRender = data.map ((item)=> <TodoItem key={item.id} id={item.id} task= {item.task} date={item.due_date} done={item.status} deleteTodo={deleteTodo} editTodo={editTodo}/>)
   console.log(dataRender)
   return (
