@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { nanoid } from "nanoid";
 import { Button } from "../Common/Button/Button"
 import styles from './TodoForm.module.scss';
 
@@ -36,8 +35,6 @@ function TodoForm(props) {
       setIsError(true);
       return;
     }
-
-    setIsError(isError);
 
     // create NewTodo
     // 1- ส่ง Request  ไปหลังบ้านเพื่อ save ลง Database

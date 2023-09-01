@@ -43,8 +43,6 @@ function TodoCreate(props) {
       textSubmit="Add Task" 
       massage = "Title is required" 
       setIsOpenForm={setIsOpenForm}
-      data={props.data}
-      setTodo={props.setTodo}
       addTodo={props.addTodo} 
       />) 
     : (<div className={styles.todo__create} onClick={handleClick}>

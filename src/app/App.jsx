@@ -7,6 +7,7 @@ import SideBar from '../components/SideBar/SideBar';
 import TodoHeader from '../components/Todo/TodoHeader';
 import TodoCreate from '../components/Todo/TodoCreate';
 import TodoLists from '../components/Todo/TodoLists';
+import dayjs from 'dayjs';
 
 const data = [ 
   { "id": nanoid(), 
@@ -34,7 +35,7 @@ function App() {
     {id:nanoid(),
       task:taskName,
       status:false,
-      due_date:"2023-09-01"}
+      due_date:dayjs().format('YYYY-MM-DD')}
 
     setAllTodos((p) => [newTodo,...p])
   }
