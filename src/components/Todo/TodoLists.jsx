@@ -1,17 +1,17 @@
-import { useState } from 'react';
 import TodoItem from './TodoItem';
 import styles from './TodoLists.module.scss'
 
-function TodoLists({data}) {
+function TodoLists({data ,deleteTodo, editTodo}) {
 
   // CRUD = Create-Read-Update-Delete
 
-  const dataRender = data.map ((item)=> <TodoItem key={item.id} id={item.id} task= {item.task} date={item.due_date} done={item.status}/>)
-
+  const dataRender = data.map ((item)=> <TodoItem key={item.id} id={item.id} task= {item.task} date={item.due_date} done={item.status} deleteTodo={deleteTodo} editTodo={editTodo}/>)
+  console.log(dataRender)
   return (
    <ul className={styles.todo__lists}>
 
    {dataRender}
+
    </ul>
   );
 

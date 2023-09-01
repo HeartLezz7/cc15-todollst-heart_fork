@@ -23,7 +23,7 @@ const data = [
 {
     "id": nanoid(),
     "task": "Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
-    "status": true,
+    "status": false,
     "due_date": "2023-04-30"
 },]
 
@@ -39,6 +39,53 @@ function App() {
 
     setAllTodos((p) => [newTodo,...p])
   }
+
+  const deleteTodo = (deleteId) => {
+    const foundIndex = allTodos.findIndex((todo) => todo.id === deleteId)
+    if (foundIndex !== -1){
+      const newTodoLists = [...allTodos]
+      newTodoLists.splice(foundIndex,1)
+      setAllTodos([...newTodoLists])
+    }
+    // 2WAY
+    // const newTodoLists = allTodos.filter((todo) => todo.id !== deleteId)
+    // setAllTodos(newTodoLists)
+  }
+
+  const editTodo = (todoId, newTodoObj) => {
+    // console.log(todoId, newTodoObj)
+
+    // Practice #1
+    // let foundedTodo = allTodos.find((todo) => todo.id === todoId);
+    // if (!foundedTodo) return;
+    
+    // const newTodo = Object.assign({},foundedTodo,newTodoObj)
+    // let foundedIndex = allTodos.findIndex((todo) => todo.id === todoId);
+    // if(foundedIndex === -1) return;
+
+    // const newTodoLists = [...allTodos];
+    // newTodoLists.splice(foundedIndex,1,newTodo)
+    // setAllTodos(newTodoLists);
+
+    // Practice #2
+    // const newTodoLists = allTodos.map ((todo) => {
+    //    if(todo.id !== todoId) {
+    //     return todo;
+    //   }else {
+    //     return{...todo,...newTodoObj}
+    //   }
+    // } );
+    // setAllTodos(newTodolists);
+    
+    // Practice #3
+    const newTodoLists = allTodos.reduce ((acc,todo) =>{
+      if(todo.id !== todoId) acc.push(todo);
+      else acc.push({...todo,...newTodoObj});
+      return acc;
+    },[])
+    setAllTodos(newTodoLists);
+  }
+  
   return (
     <div className='todo'>
       <div className='todo__header'>
@@ -55,7 +102,7 @@ function App() {
           setTodo={setAllTodos} 
           addTodo={addTodo}
           />
-          <TodoLists data={allTodos}/>
+          <TodoLists data={allTodos} deleteTodo={deleteTodo} editTodo={editTodo}/>
         </main>
       </div>
     </div>
