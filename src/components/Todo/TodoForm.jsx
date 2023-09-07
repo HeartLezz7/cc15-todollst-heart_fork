@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Button } from "../Common/Button/Button"
 import styles from './TodoForm.module.scss';
+import { TodoContext } from "../../context/TodoContext";
 
 /*
 CC1 -Form Handle
@@ -14,14 +15,15 @@ CC1 -Form Handle
 
 function TodoForm(props) {
   const [isError,setIsError] = useState(false);
-  const [taskInput,setTaskInput] = useState("");
-  
+  const [taskInput,setTaskInput] = useState(props.oldTodo?.task || "");
+  const {addTodo,editTodo} = useContext(TodoContext);
   const handleChangeInput = (event) => {
     if (isError) setIsError(false)
     setTaskInput(event.target.value);
-
+    
   }
 
+  // 2 MODE : Add or Edit
   const handleSubmit = function(event) {
     // 1. PreventDefault
     event.preventDefault();
@@ -35,6 +37,9 @@ function TodoForm(props) {
       setIsError(true);
       return;
     }
+   
+    if (props.oldTodo) editTodo(props.oldTodo.id, { task: taskInput });
+    else addTodo(taskInput);
 
     // create NewTodo
     // 1- ส่ง Request  ไปหลังบ้านเพื่อ save ลง Database
@@ -52,14 +57,19 @@ function TodoForm(props) {
     // Update State
     // props.setTodo((prev) => [newTodo,...prev]);
 
+  
     // Send TaskInput to addTodo
-    props.addTodo(taskInput);
-    props.setIsOpenForm(false);
+    // if (props.addTodo){
+    //   props.addTodo(taskInput);
+    // }
+    // else if(props.editTodo && props.oldTodo){
+    //     props.editTodo(props.oldTodo.id , {task:taskInput})
+    // }
     
+    props.setIsOpenForm(false);
   }
   
   const handleCancel = function () {
-    console.log("cancel")
     props.setIsOpenForm(false)
   }
 

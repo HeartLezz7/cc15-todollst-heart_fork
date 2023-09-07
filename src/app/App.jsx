@@ -1,90 +1,118 @@
 // Dependencies
-import { useState } from 'react';
-import { nanoid } from 'nanoid';
+import {  useEffect, useContext } from 'react';
 import './App.scss';
 import AppBar from '../components/Common/AppBar/AppBar';
 import SideBar from '../components/SideBar/SideBar';
 import TodoHeader from '../components/Todo/TodoHeader';
 import TodoCreate from '../components/Todo/TodoCreate';
 import TodoLists from '../components/Todo/TodoLists';
-import dayjs from 'dayjs';
+import { TodoContext } from '../context/TodoContext';
 
-const data = [ 
-  { "id": nanoid(), 
-  "task": "Suspendisse potenti.", 
-  "status": false, 
-  "due_date": "2023-04-26" },
-{
-    "id": nanoid(),
-    "task": "In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
-    "status": false,
-    "due_date": "2023-05-08"
-},
-{
-    "id": nanoid(),
-    "task": "Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
-    "status": false,
-    "due_date": "2023-04-30"
-},]
+// const data = [ 
+//   { "id": nanoid(), 
+//   "task": "Suspendisse potenti.", 
+//   "status": false, 
+//   "due_date": "2023-04-26" },
+// {
+//     "id": nanoid(),
+//     "task": "In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
+//     "status": false,
+//     "due_date": "2023-05-08"
+// },
+// {
+//     "id": nanoid(),
+//     "task": "Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
+//     "status": false,
+//     "due_date": "2023-04-30"
+// },]
+
+// const END_POINT = "http://localhost:8080/api/todos";
 
 function App() {
-  const [allTodos, setAllTodos] = useState(data);
+  // const {allTodos, setAllTodos, addTodo,fetchAllTodo, editTodo, deleteTodo} = useTodo();
+  const {allTodos,fetchAllTodo,editTodo,deleteTodo} = useContext(TodoContext)
+  // console.log(sharedObj)
+console.log(allTodos)
+  useEffect ((() => {
+    fetchAllTodo();
+  }) ,[]);
 
-  const addTodo = function (taskName) {
-    const newTodo =
-    {id:nanoid(),
-      task:taskName,
-      status:false,
-      due_date:dayjs().format('YYYY-MM-DD')}
+    // addTodo();
+    // deleteTodo();
+    // editTodo();
+  // ADD
+  // const addTodo = async function (taskName) {
+  //   const newTodo =
+  //   {task:taskName,
+  //     status:false,
+  //     due_date:dayjs().format('YYYY-MM-DD')}
+      
+  //     try {
+  //       // SEND REQUEST : POST
+  //       // WAIT RESOINSE
+  //       const options = {method:"POST", headers : {"Content-type":"application/json"},body : JSON.stringify(newTodo)};
+  //       let response = await fetch(END_POINT, options);
+  //       let data = await response.json();
+  //       const createTodo = {...data.todo, due_date: data.todo.date}
+  //       delete createTodo.date;
+        
+  //     // Update STATE
+  //       setAllTodos((p) => [createTodo,...p])
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  // }
 
-    setAllTodos((p) => [newTodo,...p])
-  }
-
-  const deleteTodo = (deleteId) => {
-    const foundIndex = allTodos.findIndex((todo) => todo.id === deleteId)
-    if (foundIndex !== -1){
-      const newTodoLists = [...allTodos]
-      newTodoLists.splice(foundIndex,1)
-      setAllTodos([...newTodoLists])
-    }
-    // 2WAY
-    // const newTodoLists = allTodos.filter((todo) => todo.id !== deleteId)
-    // setAllTodos(newTodoLists)
-  }
-
-  const editTodo = (todoId, newTodoObj) => {
-    // console.log(todoId, newTodoObj)
-
-    // Practice #1
-    // let foundedTodo = allTodos.find((todo) => todo.id === todoId);
-    // if (!foundedTodo) return;
+  // // DELETE
+  // const deleteTodo = async (todoId) => {
+  //   try {
+  //     const options = {method:"DELETE"};
+  //     let response = await fetch(`${END_POINT}/${todoId}`, options);
+  //     if (response.status === 204){
+  //       setAllTodos((prev) => prev.filter((todo) => todo.id !== todoId));
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
     
-    // const newTodo = Object.assign({},foundedTodo,newTodoObj)
-    // let foundedIndex = allTodos.findIndex((todo) => todo.id === todoId);
-    // if(foundedIndex === -1) return;
+  //   // 1st WAY
+  //   // const foundIndex = allTodos.findIndex((todo) => todo.id === todoId)
+  //   // if (foundIndex !== -1){
+  //   //   const newTodoLists = [...allTodos]
+  //   //   newTodoLists.splice(foundIndex,1)
+  //   //   setAllTodos([...newTodoLists])
+  //   // }
+  //   // 2nd WAY
+  //   // const newTodoLists = allTodos.filter((todo) => todo.id !== todoId)
+  //   // setAllTodos(newTodoLists)
+  // }
 
-    // const newTodoLists = [...allTodos];
-    // newTodoLists.splice(foundedIndex,1,newTodo)
-    // setAllTodos(newTodoLists);
+  // // EDIT : UpdateTodo
+  // const editTodo = async (todoId, updateTodoObj) => {
+  //   try{
+  //     // FindTodo
+  //    let foundedIndex = allTodos.findIndex((todo) => todo.id === todoId);
+  //     if(foundedIndex !== -1){
+  //       //updateTodo
+  //       const updatedTodo = {...allTodos[foundedIndex],...updateTodoObj};
+  //       updatedTodo.date = updatedTodo.due_date;
+  //       const options = {method:"PUT", headers:{"content-type":"application/json"},body: JSON.stringify(updatedTodo),}
+  //       let response = await fetch(`${END_POINT}/${todoId}`,options);
+  //       const data = await response.json();
+  //       console.log(data)
+  //       // Updatestate
+  //       const newTodoLists = [...allTodos];
+  //       console.log(newTodoLists)
+  //       newTodoLists [foundedIndex] = {...data.todo, due_date:data.todo.date};
+  //       setAllTodos(newTodoLists);
+  //       }
+  //     } catch(error) {
+  //       console.log(error)
+  //     }
+      
+  //   }
 
-    // Practice #2
-    // const newTodoLists = allTodos.map ((todo) => {
-    //    if(todo.id !== todoId) {
-    //     return todo;
-    //   }else {
-    //     return{...todo,...newTodoObj}
-    //   }
-    // } );
-    // setAllTodos(newTodolists);
-    
-    // Practice #3
-    const newTodoLists = allTodos.reduce ((acc,todo) =>{
-      if(todo.id !== todoId) acc.push(todo);
-      else acc.push({...todo,...newTodoObj});
-      return acc;
-    },[])
-    setAllTodos(newTodoLists);
-  }
+
   
   return (
     <div className='todo'>
@@ -99,8 +127,6 @@ function App() {
           <TodoHeader />
           <TodoCreate 
           data={allTodos}
-          setTodo={setAllTodos} 
-          addTodo={addTodo}
           />
           <TodoLists data={allTodos} deleteTodo={deleteTodo} editTodo={editTodo}/>
         </main>

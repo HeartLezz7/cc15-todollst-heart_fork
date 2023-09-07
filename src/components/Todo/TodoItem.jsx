@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styles from './TodoItem.module.scss';
 import { FaTrashAlt, FaPen } from 'react-icons/fa';
 import { HiOutlineCheck } from 'react-icons/hi';
 import TodoForm from './TodoForm';
+import { TodoContext } from '../../context/TodoContext';
 
-function TodoItem({ id, task, date ,done, deleteTodo , editTodo}) {
+function TodoItem({ id, task, date ,done }) {
   const [isOpenForm,setIsOpenForm] = useState(false);
+  const {deleteTodo,editTodo} = useContext(TodoContext);
 
   const handleClick = function() {
   setIsOpenForm(!isOpenForm)
@@ -21,7 +23,10 @@ function TodoItem({ id, task, date ,done, deleteTodo , editTodo}) {
         {isOpenForm ? (<TodoForm 
             textSubmit="Edit Task" 
             massage = "Please update"
-            setIsOpenForm={setIsOpenForm}/>):
+            setIsOpenForm={setIsOpenForm}
+            editTodo = {editTodo}
+            oldTodo = {{id, task, date ,done}}
+            />):
             <li className={styles.todo}>
               <div className= {`${styles.todo__checkbox} ${done ? (styles.todo__checkbox__done): ""} `}>
                 <HiOutlineCheck className={styles.todo__checkbox__icon} onClick={toggleStatus}/>

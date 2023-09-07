@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styles from './TodoCreate.module.scss';
 import TodoForm from "./TodoForm"
 import { HiPlus } from 'react-icons/hi';
+import { TodoContext } from '../../context/TodoContext';
 
 
 
@@ -31,6 +32,7 @@ CC5 -React State (1ในฟังก์ชันของ Hook)
 function TodoCreate(props) {
 
   const [isOpenForm,setIsOpenForm] = useState(false);
+  const {addTodo} =useContext(TodoContext);
 
   const handleClick = function() {
     setIsOpenForm(!isOpenForm)
@@ -43,7 +45,7 @@ function TodoCreate(props) {
       textSubmit="Add Task" 
       massage = "Title is required" 
       setIsOpenForm={setIsOpenForm}
-      addTodo={props.addTodo} 
+      addTodo={addTodo} 
       />) 
     : (<div className={styles.todo__create} onClick={handleClick}>
        <div className={styles.todo__create__button}>
