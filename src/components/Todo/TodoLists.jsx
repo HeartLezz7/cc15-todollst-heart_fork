@@ -1,12 +1,12 @@
 import TodoItem from './TodoItem';
 import styles from './TodoLists.module.scss'
-import { useContext } from 'react';
-import { TodoContext } from '../../context/TodoContext';
+import useTodo from '../../hooks/useTodo';
 
-function TodoLists({data}) {
-  const { deleteTodo,editTodo} = useContext(TodoContext)
+function TodoLists() {
+  const {showTodos }  = useTodo();
 
-  const dataRender = data.map ((item)=> <TodoItem key={item.id} id={item.id} task= {item.task} date={item.due_date} done={item.status} deleteTodo={deleteTodo} editTodo={editTodo}/>)
+
+  const dataRender = showTodos.map ((item)=> <TodoItem key={item.id} id={item.id} task= {item.task} date={item.due_date} done={item.status} />)
 
   return (
    <ul className={styles.todo__lists}>

@@ -1,7 +1,7 @@
-import { useState, useContext } from "react";
-import { Button } from "../Common/Button/Button"
-import styles from './TodoForm.module.scss';
-import { TodoContext } from "../../context/TodoContext";
+import { useState } from "react";
+import { Button } from "../Common/Button/Button";
+import styles from "./TodoForm.module.scss";
+import useTodo from "../../hooks/useTodo";
 
 /*
 CC1 -Form Handle
@@ -14,17 +14,16 @@ CC1 -Form Handle
 */
 
 function TodoForm(props) {
-  const [isError,setIsError] = useState(false);
-  const [taskInput,setTaskInput] = useState(props.oldTodo?.task || "");
-  const {addTodo,editTodo} = useContext(TodoContext);
+  const [isError, setIsError] = useState(false);
+  const [taskInput, setTaskInput] = useState(props.oldTodo?.task || "");
+  const { addTodo, editTodo } = useTodo();
   const handleChangeInput = (event) => {
-    if (isError) setIsError(false)
+    if (isError) setIsError(false);
     setTaskInput(event.target.value);
-    
-  }
+  };
 
   // 2 MODE : Add or Edit
-  const handleSubmit = function(event) {
+  const handleSubmit = function (event) {
     // 1. PreventDefault
     event.preventDefault();
     // 2. ต้องรู้ก่อนว่า User พิมพ์อะไรมา (อยู่ใน state : taskInput)
@@ -33,11 +32,11 @@ function TodoForm(props) {
     // Case 1 : submit ได้
     // Case 2 : submit ไม่ได้ => แสดง Error
 
-    if (taskInput.trim() === "" ) {
+    if (taskInput.trim() === "") {
       setIsError(true);
       return;
     }
-   
+
     if (props.oldTodo) editTodo(props.oldTodo.id, { task: taskInput });
     else addTodo(taskInput);
 
@@ -46,7 +45,7 @@ function TodoForm(props) {
     // 2- ทำการอัพเดท state ของ AllTodo == React ทำการ Rerender
     // data = []
     //data = [{id:number,task:string,status:boolean,due_date:YYYY-MM-DD}]
-    // const newTodo = 
+    // const newTodo =
     // {id:nanoid(),
     //   task:taskInput,
     //   status:false,
@@ -57,7 +56,6 @@ function TodoForm(props) {
     // Update State
     // props.setTodo((prev) => [newTodo,...prev]);
 
-  
     // Send TaskInput to addTodo
     // if (props.addTodo){
     //   props.addTodo(taskInput);
@@ -65,29 +63,34 @@ function TodoForm(props) {
     // else if(props.editTodo && props.oldTodo){
     //     props.editTodo(props.oldTodo.id , {task:taskInput})
     // }
-    
-    props.setIsOpenForm(false);
-  }
-  
-  const handleCancel = function () {
-    props.setIsOpenForm(false)
-  }
 
+    props.setIsOpenForm(false);
+  };
+
+  const handleCancel = function () {
+    props.setIsOpenForm(false);
+  };
 
   return (
     <form className={styles.todo__form__container} onSubmit={handleSubmit}>
       {/*	Body */}
-      <input className={styles.todo__form__input} 
-      placeholder='Task Name' 
-      value={taskInput}
-      onChange={handleChangeInput}
+      <input
+        className={styles.todo__form__input}
+        placeholder="Task Name"
+        value={taskInput}
+        onChange={handleChangeInput}
       />
 
       {/*Form Footer */}
       <div className={styles.todo__form__footer}>
-        { isError ? (<p className={styles.todo__error}>{props.massage}</p>) : null} 
+        {isError ? <p className={styles.todo__error}>{props.massage}</p> : null}
         <div className={styles.todo__form__buttons}>
-          <Button text="cancel" active={false} type="button" onClick={handleCancel}/>
+          <Button
+            text="cancel"
+            active={false}
+            type="button"
+            onClick={handleCancel}
+          />
           <Button text={props.textSubmit} active={true} type="submit" />
         </div>
       </div>
