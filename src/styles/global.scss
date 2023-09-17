@@ -1,13 +1,6 @@
-// Typography
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@400;600;700&display=swap');
-
-// CSS-Variable
-$primary: #db4c3f;
-$grey-light: #eaeaea;
-$grey-dark: #808080;
-$white: #fff;
-$header-height: 60px;
-$sidebar-width: 375px;
+@import './colors.scss';
+@import './typography.scss';
+@import './variable.scss';
 
 // GLOBAL RESET
 *,
@@ -19,7 +12,7 @@ $sidebar-width: 375px;
 }
 
 html {
-  font-size: 62.5%; /*equal font-size : 10px*/
+  font-size: 10px; /*equal font-size : 10px*/
 }
 
 body {
